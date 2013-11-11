@@ -111,9 +111,17 @@ function precmd {
     print -Pn "\e]1;%m:%-3~ $a\a"
   fi
 
-  # export PROMPT=$bright$black''$bright$yellow'%t'$cyan' %30<...<%~'$grey' '$normal$bright' ❯'$normal'❯ '$normal
-  export PROMPT=$yellow'≡ '$FG[175]'%25<...<%~ '$normal$bright'❯'$normal'❯ '$normal
-  export RPROMPT="$(git_prompt) $FG[015]∵$normal $FG[038]%D{%K}$FG[242]:$FG[038]%D{%M}$FG[242]:$FG[025]%D{%S}$normal"
+  if [ -n "$MC_SID" ]; then
+    TERM='dumb'
+  fi
+
+  if [ $TERM = 'dumb' ]; then
+    PROMPT="%30<...<%~> "
+    PS2=">> "
+  else
+    export PROMPT=$yellow'≡ '$FG[175]'%25<...<%~ '$normal$bright'❯'$normal'❯ '$normal
+    export RPROMPT="$(git_prompt) $FG[015]∵$normal $FG[038]%D{%K}$FG[242]:$FG[038]%D{%M}$FG[242]:$FG[025]%D{%S}$normal"
+  fi
 }
 
 ###############################################################################
