@@ -1,0 +1,99 @@
+# vim: filetype=zsh
+# ------------------------------------------------------------------------
+# Shell Aliases and ZSH Functions for CLI convenience
+# ------------------------------------------------------------------------
+
+alias ls='ls -sFGX --color -C -h -v'
+alias l='ls -sFGX --color -C -h -v'
+alias md='mkdir'
+alias rd='rmdir'
+alias ..='cd ..'
+alias cls=clear
+alias XX='echo "Rescanning RC";. ~/.zshrc ; rvm default'
+alias sl='ls'
+alias dir='ls -al'
+alias dri='ls -al'
+alias pc='cp'
+alias vm='mv'
+alias e='mvim'
+alias gvim='mvim'
+alias j='mvim'
+alias ed='mvim'
+alias vim='mvim -v'
+alias s='sudo'
+alias updatedb='sudo /usr/libexec/locate.updatedb'
+alias p='padrino'
+alias mc='mc -S xoria256'
+alias z='zeus'
+alias man='pinfo -m'
+
+# dont glob with rake
+alias rake="noglob rake"
+
+# -- GO!
+alias godl='cd ~/Downloads'
+alias gocode='cd ~/Code'
+alias ss='cd ~/Code/schoolstatus'
+
+# -- Tunnels
+alias ss_tunnel='ssh -L 6060:localhost:5432 reports -gN&'
+
+# Aliases
+alias g='git'
+#compdef g=git
+alias gst='git status'
+#compdef _git gst=git-status
+alias gl='git pull'
+#compdef _git gl=git-pull
+alias gup='git fetch && git rebase'
+#compdef _git gup=git-fetch
+alias gp='git push'
+#compdef _git gp=git-push
+alias gpom='git push origin master'
+alias gpbm='git push origin bleeding'
+alias gppm='git push production master'
+gdv() { git diff -w "$@" | view - }
+#compdef _git gdv=git-diff
+alias gc='git commit -v'
+#compdef _git gc=git-commit
+alias gca='git commit -v -a'
+#compdef _git gca=git-commit
+alias gco='git checkout'
+#compdef _git gco=git-checkout
+alias gcm='git checkout master'
+alias gb='git branch'
+#compdef _git gb=git-branch
+alias gba='git branch -a'
+#compdef _git gba=git-branch
+alias gcount='git shortlog -sn'
+#compdef gcount=git
+alias gcp='git cherry-pick'
+#compdef _git gcp=git-cherry-pick
+alias glg='git log --stat --max-count=5'
+#compdef _git glg=git-log
+alias glgg='git log --graph --max-count=5'
+#compdef _git glgg=git-log
+alias gss='git status -s'
+#compdef _git gss=git-status
+alias ga='git add'
+#compdef _git ga=git-add
+alias gm='git merge'
+#compdef _git gm=git-merge
+alias grh='git reset HEAD'
+alias grhh='git reset HEAD --hard'
+alias gd='git diff --color'
+alias gcom='git add . && git commit'
+
+# Cool functions
+# -----------------------------------------------
+function csv_headers {
+  head -n 1 $1 | ruby -e 'puts STDIN.readlines.first.to_s.gsub(/,/,"\n")'
+}
+
+function tsv_headers {
+  head -n 1 $1 | ruby -e 'puts STDIN.readlines.first.to_s.gsub(/\t/,"\n")'
+}
+
+function pcl2pdf {
+  pcl6 -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=${1:l}.pdf $1
+}

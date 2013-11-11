@@ -1,0 +1,5 @@
+# Padrino hooks
+function _padrino () {
+	reply=( `padrino | awk '/padrino/ {print $2}'` )
+}
+compctl -K _padrino padrino

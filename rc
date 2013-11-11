@@ -1,0 +1,235 @@
+# ------------------------------------------------------------------------ 
+# vim: set ft=zsh:
+# ------------------------------------------------------------------------ 
+# local variables to use
+ZH=~/.zsh
+
+# ------------------------------------------------------------------------ 
+# some environment variables to set up
+export HOSTNAME="`hostname`"
+#export LESS="-MM"
+
+# Make AWS API Tools work
+export JAVA_HOME="$(/usr/libexec/java_home)"
+export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.aws/bcg-jdeere-private.pem | /usr/bin/head -1)"
+export EC2_CERT="$(/bin/ls "$HOME"/.aws/bcg-jdeere-cer.pem | /usr/bin/head -1)"
+export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
+export AWS_ELB_HOME="/usr/local/Library/LinkedKegs/elb-tools/jars" 
+export AWS_IAM_HOME="/usr/local/Library/LinkedKegs/aws-iam-tools/jars" 
+
+# Oracle drivers
+export DYLD_LIBRARY_PATH="/usr/local/oracle/instantclient_11_2"
+export NLS_LANG="AMERICAN_AMERICA.UTF8"
+
+# TRELLO API
+TRELLO_DEVELOPER_PUBLIC_KEY=2674994b560282a65fe5329f052cefce
+TRELLO_MEMBER_TOKEN=98781356384723a14523950ecf8969a4387404f60107e3db8f918ec60f275950
+
+# ------------------------------------------------------------------------ 
+# paths are scanned from these files
+export            PATH=`awk '{printf("%s:",$1);}' < $ZH/path | sed 's:~:'$HOME':g'`:$PATH
+export LD_LIBRARY_PATH=`awk '{printf("%s:",$1);}' < $ZH/libs | sed 's:~:'$HOME':g'`
+
+SYNC_PATH=`cat $ZH/sync_files | awk '{printf("%s ", $1);}' | sed 's:~:'$HOME':g'`
+export SYNC_PATH
+
+# ------------------------------------------------------------------------ 
+# term type - if we dont know the term type - set it to linux
+if [ "$TERM" = "" -o "$TERM" = "unknown" ]; then
+  export TERM=linux
+fi
+
+# color spectrum
+. ~/.zsh/spectrum.zsh
+
+# ------------------------------------------------------------------------ 
+# my prompt
+ black='%{[30m%}'
+ red='%{[31m%}'
+ green='%{[32m%}'
+ yellow='%{[33m%}'
+ blue='%{[34m%}'
+ purple='%{[35m%}'
+ cyan='%{[36m%}'
+ grey='%{[37m%}'
+ bg_black='%{[40m%}'
+ bg_red='%{[41m%}'
+ bg_green='%{[42m%}'
+ bg_yellow='%{[43m%}'
+ bg_blue='%{[44m%}'
+ bg_purple='%{[45m%}'
+ bg_cyan='%{[46m%}'
+ bg_grey='%{[47m%}'
+ bright='%{[01m%}'
+ underline='%{[04m%}'
+ flashing='%{[05m%}'
+ normal='%{[0m%}'
+ 
+# git hooks
+function current_branch() {
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+  echo ${ref#refs/heads/}
+}
+
+function current_repository() {
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+  echo $(git remote -v | cut -d':' -f 2)
+}
+
+# Checks if working tree is dirty
+function git_dirty() {
+  local SUBMODULE_SYNTAX=''
+  if [[ -n $(git status -s ${SUBMODULE_SYNTAX}  2> /dev/null) ]]; then
+    echo "••"
+  else
+    echo ""
+  fi
+}
+
+function git_prompt () {
+  branch=$(current_branch)
+  dirty=$(git_dirty)
+
+  if [ "$branch" != "" ]; then
+    # echo "$normal$purple❮$bright❮$red$dirty$yellow$branch$purple❯$normal$purple❯$normal"
+    echo "$FG[085]«$normal$FG[009]$dirty$normal$FG[222]$branch$FG[085]»$normal"
+  fi
+}
+
+# prompt you get when you dont finish typing stuff...
+export PS2=$yellow'≡ '$normal$bright'❯'$normal'❯ '$normal
+
+# block chars
+# ░ ▒ ▓
+
+###############################################################################
+# function called before the prompt is displayed
+function precmd {
+# get a title at random from the title list
+  if [ $TERM = xterm-256color ]; then
+    print -Pn "\e]2;%m:%-3~ $a\a"
+    print -Pn "\e]1;%m:%-3~ $a\a"
+  fi
+
+  # export PROMPT=$bright$black''$bright$yellow'%t'$cyan' %30<...<%~'$grey' '$normal$bright' ❯'$normal'❯ '$normal
+  export PROMPT=$yellow'≡ '$FG[175]'%25<...<%~ '$normal$bright'❯'$normal'❯ '$normal
+  export RPROMPT="$(git_prompt) $FG[015]∵$normal $FG[038]%D{%K}$FG[242]:$FG[038]%D{%M}$FG[242]:$FG[025]%D{%S}$normal"
+}
+
+###############################################################################
+# misc settings
+# num of times ctrl-d has to be pressed again to get zsh to exit
+export IGNOREEOF=0
+# set the default editor fc
+export FCEDIT=vim
+# define which file sets up the interactive input settings
+export INPUTRC=$ZH/input
+# set this variable to something so "dot" files in a pathname are expanded
+export glob_dot_filenames=1
+# make sure zsh doesn't follow links in expansions
+export nolinks=1
+
+# history
+export HISTSIZE=8192
+export SAVEHIST=8192
+export HISTFILE="$ZH/history"
+
+# hostname completion
+export HOSTFILE="/etc/hosts"
+# set the umask
+umask 022
+# setup the dir colours
+eval `dircolors -b $ZH/ls_colors`
+# get my aliases
+. $ZH/aliases
+# My preferred editor
+export EDITOR=vim
+export PADRINO_ENV=development
+# just type directory name to cd to it
+setopt AUTO_CD
+# list all choices on an ambiguous completion
+setopt AUTO_LIST
+# after second completion attempt use a menu
+setopt AUTO_MENU
+# complete dirs with a / at the end
+setopt AUTO_PARAM_SLASH
+# dont run background jobs at a lower priority
+setopt NO_BG_NICE
+# if we cd to a dir that doesnt exist and its not starting with / try it in ~/
+setopt CDABLE_VARS
+# dont send HUP signales to jobs running if shell goes down
+setopt NO_HUP
+# notify me of bg jobs exiting immediately - not at next prompt
+setopt NOTIFY
+# extended globbing
+setopt extendedglob
+
+# configure syntax hilighting
+. $ZH/syntax/zsh-syntax-highlighting.zsh
+
+# load my coolguy functions
+. $ZH/functions
+
+# Compiler options
+# my preferred compiler
+export CC="`cat $ZH/cc`"
+
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+
+setopt INC_APPEND_HISTORY SHARE_HISTORY
+setopt APPEND_HISTORY
+setopt CORRECT
+setopt EXTENDED_HISTORY
+setopt MENUCOMPLETE
+setopt ALL_EXPORT
+
+setopt   notify globdots correct pushdtohome cdablevars autolist
+setopt   correctall autocd recexact longlistjobs
+setopt   autoresume histignoredups pushdsilent 
+setopt   autopushd pushdminus extendedglob rcquotes mailwarning
+unsetopt bgnice autoparamslash
+
+zmodload -a zsh/stat stat
+zmodload -a zsh/zpty zpty
+zmodload -a zsh/zprof zprof
+
+autoload colors zsh/terminfo
+if [[ "$terminfo[colors]" -ge 8 ]]; then
+  colors
+fi
+for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+   eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+   eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+   (( count = $count + 1 ))
+done
+PR_NO_COLOR="%{$terminfo[sgr0]%}"
+
+autoload -U compinit
+compinit
+bindkey "^?" backward-delete-char
+bindkey '^[OH' beginning-of-line
+bindkey '^[OF' end-of-line
+bindkey '^[[5~' up-line-or-history
+bindkey '^[[6~' down-line-or-history
+bindkey "^r" history-incremental-search-backward
+bindkey ' ' magic-space    # also do history expansion on space
+bindkey '^I' complete-word # complete on tab, leave expansion to _expand
+bindkey -e
+zstyle ':completion::complete:*' use-cache on
+zstyle ':completion::complete:*' cache-path ~/.zsh/cache/$HOST
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
+zstyle ':completion:*' menu select=1 _complete _ignored _approximate
+
+export LANG=en_US.UTF-8
+export LANGUAGE=$LANG
+export LC_ALL=$LANG
+export LC_MESSAGES=$LANG
+export XTERM_LOCALE=$LANG
+
+fortune
+echo 
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+# ------------------------------------------------------------------------ 
