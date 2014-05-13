@@ -1,7 +1,4 @@
 ## Donny Phase's Z-Shell Configuration
-
----
-
 ### Install Instructions
 Clone this repo to your favorite local directory:
 
