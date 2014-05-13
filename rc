@@ -119,7 +119,13 @@ function precmd {
     PROMPT="%30<...<%~> "
     PS2=">> "
   else
-    export PROMPT=$yellow'≡ '$FG[175]'%25<...<%~ '$normal$bright'❯'$normal'❯ '$normal
+    # export PROMPT=$yellow'≡ '$FG[175]'%25<...<%~ '$normal$bright'❯'$normal'❯ '$normal
+    export PROMPT=$yellow'≡ '$FG[175]`~/.zsh/bin/rpwd.rb`' '$normal$bright'❯'$normal'❯ '$normal
+
+# multi-line prompt
+# export PROMPT=$yellow'╓─ '$FG[175]`$HOME/bin/rpwd.rb`' ─ ──── ── ─ -
+# ╙─ '$normal
+
     export RPROMPT="$(git_prompt) $FG[015]∵$normal $FG[038]%D{%K}$FG[242]:$FG[038]%D{%M}$FG[242]:$FG[025]%D{%S}$normal"
   fi
 }
@@ -152,7 +158,6 @@ eval `dircolors -b $ZH/ls_colors`
 . $ZH/aliases
 # My preferred editor
 export EDITOR=vim
-export PADRINO_ENV=development
 # just type directory name to cd to it
 setopt AUTO_CD
 # list all choices on an ambiguous completion

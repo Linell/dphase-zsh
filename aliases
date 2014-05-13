@@ -3,8 +3,8 @@
 # Shell Aliases and ZSH Functions for CLI convenience
 # ------------------------------------------------------------------------
 
-alias ls='ls -sFGX --color -C -h -v'
-alias l='ls -sFGX --color -C -h -v'
+alias ls='ls -sFGX --color -C -h -v --group-directories-first'
+alias l='ls'
 alias md='mkdir'
 alias rd='rmdir'
 alias ..='cd ..'
@@ -22,10 +22,11 @@ alias ed='mvim'
 alias vim='mvim -v'
 alias s='sudo'
 alias updatedb='sudo /usr/libexec/locate.updatedb'
-alias p='padrino'
+alias p='bundle exec padrino'
 alias mc='mc -S xoria256'
 alias z='zeus'
-alias man='pinfo -m'
+# alias man='pinfo -m'
+alias tma='tmux attach -t 0'
 
 # dont glob with rake
 alias rake="noglob rake"
@@ -33,7 +34,7 @@ alias rake="noglob rake"
 # -- GO!
 alias godl='cd ~/Downloads'
 alias gocode='cd ~/Code'
-alias ss='cd ~/Code/schoolstatus'
+alias ss='cd ~/Code/SS'
 
 # -- Tunnels
 alias ss_tunnel='ssh -L 6060:localhost:5432 reports -gN&'

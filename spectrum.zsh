@@ -21,13 +21,13 @@ FX=(
     reverse   "[07m" no-reverse   "[27m"
 )
 
-local SUPPORT
+#local SUPPORT
 
 # Optionally handle impoverished terminals.
 if (( $# == 0 )); then
-    SUPPORT=256
+    export SUPPORT=256
 else
-    SUPPORT=$1
+    export SUPPORT=$1
 fi
 
 # Fill the color maps.
