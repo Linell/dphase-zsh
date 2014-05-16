@@ -34,7 +34,7 @@ alias rake="noglob rake"
 # -- GO!
 alias godl='cd ~/Downloads'
 alias gocode='cd ~/Code'
-alias ss='cd ~/Code/SS'
+alias ss='cd ~/Documents/dev/schoolstatus'
 
 # -- Tunnels
 alias ss_tunnel='ssh -L 6060:localhost:5432 reports -gN&'
