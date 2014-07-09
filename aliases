@@ -98,3 +98,7 @@ function tsv_headers {
 function pcl2pdf {
   pcl6 -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=${1:l}.pdf $1
 }
+
+# App Specific Stuff
+# ----------------------------------------------
+alias chrome='open /Applications/Google\ Chrome.app'
