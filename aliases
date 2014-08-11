@@ -25,8 +25,11 @@ alias updatedb='sudo /usr/libexec/locate.updatedb'
 alias p='bundle exec padrino'
 alias mc='mc -S xoria256'
 alias z='zeus'
+
+alias mtc=put_on_website
 # alias man='pinfo -m'
 alias tma='tmux attach -t 0'
+alias top='top -u'
 
 # dont glob with rake
 alias rake="noglob rake"
@@ -50,6 +53,7 @@ alias gup='git fetch && git rebase'
 #compdef _git gup=git-fetch
 alias gp='git push'
 #compdef _git gp=git-push
+alias gpo='git push origin'
 alias gpom='git push origin master'
 alias gpbm='git push origin bleeding'
 alias gppm='git push production master'
@@ -97,6 +101,12 @@ function tsv_headers {
 
 function pcl2pdf {
   pcl6 -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=${1:l}.pdf $1
+}
+
+function put_on_website {
+  mv $1 ~/Documents/personal/Linell.github.io/code/
+  git commit -a -m "adding code via script"
+  git push origin master
 }
 
 # App Specific Stuff

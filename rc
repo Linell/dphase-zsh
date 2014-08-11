@@ -243,3 +243,8 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # ------------------------------------------------------------------------
 #  Well... I've got to do something original, right?
 echo 'Welcome, Linell.'
+source ~/.oracle_client
+export DYLD_LIBRARY_PATH="/usr/local/oracle/product/instantclient_64/11.2.0.3.0"
+export SQLPATH="/usr/local/oracle/product/instantclient_64/11.2.0.3.0"
+export NLS_LANG="AMERICAN_AMERICA.UTF8"
+export PATH=$PATH:$DYLD_LIBRARY_PATH
