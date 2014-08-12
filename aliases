@@ -26,6 +26,11 @@ alias p='bundle exec padrino'
 alias mc='mc -S xoria256'
 alias z='zeus'
 
+# Sidekiq sans messages
+alias sq='bundle exec sidekiq -r ./config/boot.rb -C config/sidekiq.yml'
+# If you want messages, you just need to set this env var
+# SIDEKIQ_LOG=1 sq
+
 alias mtc=put_on_website
 # alias man='pinfo -m'
 alias tma='tmux attach -t 0'
