@@ -25,6 +25,9 @@ alias updatedb='sudo /usr/libexec/locate.updatedb'
 alias p='bundle exec padrino'
 alias mc='mc -S xoria256'
 alias z='zeus'
+alias start='p s -p 3030'
+alias todos='ack --ignore-dir=deprecated --ignore-dir=components TODO'
+alias fixmes='ack --ignore-dir=deprecated --ignore-dir=components FIXME'
 
 # Sidekiq sans messages
 alias sq='bundle exec sidekiq -r ./config/boot.rb -C config/sidekiq.yml'
@@ -81,7 +84,7 @@ alias gcp='git cherry-pick'
 #compdef _git gcp=git-cherry-pick
 alias glg='git log --stat --max-count=5'
 #compdef _git glg=git-log
-alias glgg='git log --graph --max-count=5'
+alias glgg='git log --graph'
 #compdef _git glgg=git-log
 alias gss='git status -s'
 #compdef _git gss=git-status
@@ -93,6 +96,8 @@ alias grh='git reset HEAD'
 alias grhh='git reset HEAD --hard'
 alias gd='git diff --color'
 alias gcom='git add . && git commit'
+# Undo git pull
+alias gundo='git reset --hard && git clean -fd'
 
 # Cool functions
 # -----------------------------------------------
