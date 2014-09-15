@@ -82,7 +82,7 @@ alias gcount='git shortlog -sn'
 #compdef gcount=git
 alias gcp='git cherry-pick'
 #compdef _git gcp=git-cherry-pick
-alias glg='git log --stat --max-count=5'
+alias glg="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 #compdef _git glg=git-log
 alias glgg='git log --graph'
 #compdef _git glgg=git-log
@@ -98,6 +98,8 @@ alias gd='git diff --color'
 alias gcom='git add . && git commit'
 # Undo git pull
 alias gundo='git reset --hard && git clean -fd'
+# Delete branch local and remote
+gdel() { git branch -D "$@" && git branch -D -r origin/"$@" && git push origin :"$@" }
 
 # Cool functions
 # -----------------------------------------------
