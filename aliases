@@ -28,6 +28,7 @@ alias z='zeus'
 alias start='p s -p 3030'
 alias todos='ack --ignore-dir=deprecated --ignore-dir=components TODO'
 alias fixmes='ack --ignore-dir=deprecated --ignore-dir=components FIXME'
+alias fproc='ps aux|grep' # used like fproc node // finds all processes matching 'node'
 
 # Sidekiq sans messages
 alias sq='bundle exec sidekiq -r ./config/boot.rb -C config/sidekiq.yml'
